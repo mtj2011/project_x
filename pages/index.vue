@@ -1,74 +1,36 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
       <v-card>
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          travel
         </v-card-title>
         <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
+          <div>
+            <v-text-field v-model="token" prefix="token : " placeholder="入力してください"></v-text-field>
           </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
+          <v-spacer />
         </v-card-text>
+      </v-card>
+        <v-card-text>
+          <div>
+            <v-text-field v-model="exp" prefix="exp : " disabled></v-text-field>
+            <v-text-field v-model="gold" prefix="gold : " disabled></v-text-field>
+            <v-text-field v-model="text" prefix="Text : " disabled></v-text-field>
+          </div>
+          <v-spacer />
+        </v-card-text>
+      <!-- <v-card>
+        <iframe id="inlineFrame" width="100%" height="610px" src="https://web.simple-mmo.com/travel"></iframe>
+      </v-card> -->
+      <v-card>
         <v-card-actions>
           <v-spacer />
           <v-btn
             color="primary"
-            nuxt
-            to="/inspire"
+            v-on:click="onAtk"
           >
-            Continue
+            {{playBtnName}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -78,6 +40,67 @@
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'IndexPage',
+  data() {
+    return {
+      reqestData: {},
+      token: 'W6YlHPNio07k7royi8gobk7IyvaRrBftNPit1idS9toMtrrgMQAxYVctQxme',
+      exp: '-',
+      gold: '-',
+      text: '-',
+      playBtnName: 'Attack',
+      timer: null,
+      interval: 8000,
+    }
+  },
+  methods: {
+    onAtk() {
+      if (this.playBtnName === 'Wait') {
+        return false
+      }
+
+      this.playBtnName = 'Wait'
+      this.reqestData = {
+        "api_token": this.token,
+        "d_1": 141,
+        "d_2": 246,
+        "s": false
+      }
+
+      this.api()
+      this.timer = setTimeout(this.api, this.interval)
+    },
+    api() {
+      this.playBtnName = 'Wait'
+      const response = this.$axios({
+        method: 'POST',
+        url: 'https://api.simple-mmo.com/api/travel/perform/f4g5l4l3k',
+        headers: {'Access-Control-Allow-Origin': '*'},
+        data: this.reqestData
+      }).then((res) => {
+        console.log("result", res)
+        this.playBtnName = 'Attack'
+        this.updateMsg(res.data)
+
+        clearTimeout(this.timer)
+        this.timer = null
+        this.timer = setTimeout(this.api, this.interval)
+      }).catch(() => {
+        this.text = 'Error!'
+        clearTimeout(this.timer)
+        this.timer = null
+      })
+    },
+    updateMsg(data) {
+      this.exp = data.exp_amount + ''
+      this.gold = data.gold_amount + ''
+      if (data.step_type === "text") {
+        this.text = data.text
+      }
+      else if (data.step_type === "item") {
+        this.text = data.heading
+      }
+    }
+  }
 }
 </script>
