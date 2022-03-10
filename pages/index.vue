@@ -50,7 +50,7 @@ export default {
       text: '-',
       playBtnName: 'Attack',
       timer: null,
-      interval: 8000,
+      interval: 8500,
     }
   },
   methods: {
@@ -84,7 +84,14 @@ export default {
 
         clearTimeout(this.timer)
         this.timer = null
-        this.timer = setTimeout(this.api, this.interval)
+
+        if (res.data.step_type) {
+          this.timer = setTimeout(this.api, this.interval)
+        }
+        else {
+          this.text = 'bot!'
+        }
+
       }).catch(() => {
         this.text = 'Error!'
         clearTimeout(this.timer)
