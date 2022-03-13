@@ -3,7 +3,7 @@
     <v-col cols="12" sm="8" md="6">
       <v-card>
         <v-card-title class="headline">
-          travel
+          travel v1.0.1
         </v-card-title>
         <v-card-text>
           <div>
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       reqestData: {},
-      token: 'W6YlHPNio07k7royi8gobk7IyvaRrBftNPit1idS9toMtrrgMQAxYVctQxme',
+      token: 'ZpN8Hovclti2W2XlzPh1UCWs89NGSQferZ7JIgBVkBduhr59AuLgG5fPgVI4',
       exp: '-',
       gold: '-',
       text: '-',
@@ -60,15 +60,19 @@ export default {
       }
 
       this.playBtnName = 'Wait'
-      this.reqestData = {
-        "api_token": this.token,
-        "d_1": 141,
-        "d_2": 246,
-        "s": false
-      }
+
 
       this.api()
       this.timer = setTimeout(this.api, this.interval)
+    },
+    getCreateReqest() {
+      const sec = new Date().getSeconds()
+      return {
+        "api_token": this.token,
+        "d_1": 120 + sec,
+        "d_2": 220 + sec,
+        "s": false
+      }
     },
     api() {
       this.playBtnName = 'Wait'
@@ -76,7 +80,7 @@ export default {
         method: 'POST',
         url: 'https://api.simple-mmo.com/api/travel/perform/f4g5l4l3k',
         headers: {'Access-Control-Allow-Origin': '*'},
-        data: this.reqestData
+        data: this.getCreateReqest()
       }).then((res) => {
         console.log("result", res)
         this.playBtnName = 'Attack'
