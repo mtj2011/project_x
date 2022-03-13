@@ -105,7 +105,7 @@ export default {
       })
     },
     updateMsg(data) {
-      this.level = data.level
+      this.level = data.level + ''
       this.exp = data.exp_amount + ''
       this.gold = data.gold_amount + ''
       if (data.step_type === "text") {
