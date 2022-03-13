@@ -62,8 +62,8 @@ export default {
       this.playBtnName = 'Wait'
 
 
-      this.api()
-      this.timer = setTimeout(this.api, this.interval)
+      // this.api()
+      this.timer = setTimeout(this.api, 0)
     },
     getCreateReqest() {
       const sec = new Date().getSeconds()
@@ -90,7 +90,7 @@ export default {
         this.timer = null
 
         if (res.data.step_type) {
-          this.timer = setTimeout(this.api, this.interval)
+          this.timer = setTimeout(this.api, res.data.nextwait * 1000)
         }
         else {
           this.text = 'bot!'
