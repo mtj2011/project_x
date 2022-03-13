@@ -1,21 +1,18 @@
 <template>
   <v-bottom-navigation>
-    <v-btn value="recent">
-      <span>Recent</span>
-
-      <v-icon>mdi-history</v-icon>
+    <v-btn to="/">
+      <span>Travel</span>
+      <v-icon>mdi-human-white-cane</v-icon>
     </v-btn>
 
-    <v-btn value="favorites">
-      <span>Favorites</span>
-
-      <v-icon>mdi-heart</v-icon>
+    <v-btn to="web">
+      <span>Web</span>
+      <v-icon>mdi-web</v-icon>
     </v-btn>
 
-    <v-btn value="nearby">
-      <span>Nearby</span>
-
-      <v-icon>mdi-map-marker</v-icon>
+    <v-btn to="settings">
+      <span>Settings</span>
+      <v-icon>mdi-cog</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
