@@ -14,8 +14,9 @@
       </v-card>
         <v-card-text>
           <div>
-            <v-text-field v-model="exp" prefix="exp : " disabled></v-text-field>
-            <v-text-field v-model="gold" prefix="gold : " disabled></v-text-field>
+            <v-text-field v-model="level" prefix="Lv : " disabled></v-text-field>
+            <v-text-field v-model="exp" prefix="Exp : " disabled></v-text-field>
+            <v-text-field v-model="gold" prefix="Gold : " disabled></v-text-field>
             <v-text-field v-model="text" prefix="Text : " disabled></v-text-field>
           </div>
           <v-spacer />
@@ -45,6 +46,7 @@ export default {
     return {
       reqestData: {},
       token: 'ZpN8Hovclti2W2XlzPh1UCWs89NGSQferZ7JIgBVkBduhr59AuLgG5fPgVI4',
+      level: '-',
       exp: '-',
       gold: '-',
       text: '-',
@@ -103,6 +105,7 @@ export default {
       })
     },
     updateMsg(data) {
+      this.level = data.level
       this.exp = data.exp_amount + ''
       this.gold = data.gold_amount + ''
       if (data.step_type === "text") {
